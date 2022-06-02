@@ -21,6 +21,10 @@ then
 	username=$(whoami)
 fi
 
+# create the log file
+mkdir -p /tmp/water_linux/Log
+touch /tmp/water_linux/Log/update.txt
+
 
 
 # https://raw.githubusercontent.com/Virgilio-AI/dotFiles-AW/master/version.txt
@@ -29,23 +33,24 @@ function SyncFolder()
 {
 	src=$1
 	target=$2
-	mkdir -p ${target::-1} |& tee -a /tmp/water_linux/Log/pour.txt
+	mkdir -p ${target::-1}
 
 	if [[ -d ${src::-1} ]]
 	then
-		rsync -aAXv $src $target |& tee -a /tmp/water_linux/Log/pour.txt
+		rsync -aAXv $src $target
 	fi
 }
 
 
 function CheckNewUpdate()
 {
-	mkdir -p /tmp/water_linux
-	cd /tmp/water_linux
-	wget https://raw.githubusercontent.com/Virgilio-AI/dotFiles-AW/master/version.txt
+	mkdir -p /tmp/water_linux |& tee -a /tmp/water_linux/Log/update.txt
+	cd /tmp/water_linux |& tee -a /tmp/water_linux/Log/update.txt
+	wget https://raw.githubusercontent.com/Virgilio-AI/dotFiles-AW/master/version.txt |& tee -a /tmp/water_linux/Log/update.txt
 	# if they are different return no errors so that means there is an update
-	cmp  --silent /etc/water_linux/version.txt version.txt || return 0
+	cmp  --silent /etc/water_linux/version.txt version.txt  || return 0
 	# else there is no update and you return errors
+	echo "no updates available" |& tee -a /tmp/water_linux/Log/update.txt
 	return 1
 }
 
@@ -138,13 +143,13 @@ function update()
 
 function askForConfirmation()
 {
-	echo "there is an update available"
-	echo "update?(Y/n)"
-	read ans
+	echo "there is an update available" |& tee -a /tmp/water_linux/Log/update.txt
+	echo "update?(Y/n)" |& tee -a /tmp/water_linux/Log/update.txt
+	read ans |& tee -a /tmp/water_linux/Log/update.txt
 	# use () instead of [[]] for some examples
 	if [[ ans == "y" || ans == "Y" || ans == "" ]]
 	then
-		update
+		update |& tee -a /tmp/water_linux/Log/update.txt
 	fi
 }
 
