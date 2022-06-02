@@ -111,6 +111,10 @@ function update()
 	mkdir /tmp/water_linux
 	# cd into the folder
 	cd /tmp/water_linux
+	# remove the previous folders
+	rm -rfd /tmp/water_linux/localDotFiles
+	rm -rfd /tmp/water_linux/dotFiles-AW.git
+
 	# git clone the dotFiles
 	git clone https://github.com/Virgilio-AI/dotFiles-AW.git
 	# create the local Folder directory
@@ -122,7 +126,7 @@ function update()
 	rm -rfd dotFiles-AW/.git
 	rm dotFiles-AW/.gitignore
 	rm dotFiles-AW/.gitmodules
-	rm dotFiles-AW/.README.md
+	rm dotFiles-AW/README.md
 	rm dotFiles-AW/version.txt
 	rm dotFiles-AW/.config/nvim/.netrwhist
 	rm -rfd dotFiles-AW/.config/nvim/UltiSnips
@@ -144,9 +148,9 @@ function update()
 	echo "deseas continuar con la actualizacion automatica?(Y,n)"
 	read ans
 	# use () instead of [[]] for some examples
-	if [[ ans == "y" || ans == "Y" || ans == "" ]]
+	if [[ $ans == "y" || $ans == "Y" || $ans == "" ]]
 	then
-		SyncFolders /tmp/water_linux /home/rockhight && 
+		SyncFolders /tmp/water_linux/dotFiles-AW /home/rockhight && 
 		echo "la actualizacion se ah echo de forma correcta"
 	fi
 }
@@ -159,7 +163,7 @@ function askForConfirmation()
 	echo "update?(Y/n)" |& tee -a /tmp/water_linux/Log/update.txt
 	read ans |& tee -a /tmp/water_linux/Log/update.txt
 	# use () instead of [[]] for some examples
-	if [[ ans == "y" || ans == "Y" || ans == "" ]]
+	if [[ $ans == "y" || $ans == "Y" || $ans == "" ]]
 	then
 		update |& tee -a /tmp/water_linux/Log/update.txt
 	fi
