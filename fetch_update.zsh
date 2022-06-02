@@ -123,6 +123,8 @@ function update()
 	rm dotFiles-AW/.gitmodules
 	rm dotFiles-AW/.README.md
 	rm dotFiles-AW/version.txt
+	rm localDotFiles/.config/mpd/pid
+	rm localDotFiles/.config/mpd/log
 	# get a basic diff to see what is going to change
 	diff -bur localDotFiles/ dotFiles-AW/ > diff.txt
 	# check the diff of the update
