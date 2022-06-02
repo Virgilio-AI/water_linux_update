@@ -117,14 +117,24 @@ function update()
 	mkdir localDotFiles
 	# pours all the local changes to the directory
 	pour.zsh /home/$username localDotFiles
-	# remove the git files
+
+	# remove ineccesary files in dotFiles-AW
 	rm -rfd dotFiles-AW/.git
 	rm dotFiles-AW/.gitignore
 	rm dotFiles-AW/.gitmodules
 	rm dotFiles-AW/.README.md
 	rm dotFiles-AW/version.txt
+	rm dotFiles-AW/.config/nvim/.netrwhist
+	rm -rfd dotFiles-AW/.config/nvim/UltiSnips
+	rm -rfd dotFiles-AW/images
+	rm README.md
+
+	# remove innecesary files in localDotFiles
 	rm localDotFiles/.config/mpd/pid
 	rm localDotFiles/.config/mpd/log
+	rm localDotFiles/.config/nvim/PlugIns
+
+
 	# get a basic diff to see what is going to change
 	diff -bur localDotFiles/ dotFiles-AW/ > diff.txt
 	# check the diff of the update
